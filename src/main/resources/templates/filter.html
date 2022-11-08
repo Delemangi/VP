@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/filter}">
+    <label for="courses">Choose a course</label>
+    <select name="course" id="courses">
+        <option value="">Choose...</option>
+        <option th:each="course : ${courses}" th:value="${course.getCourseId()}" th:text="${course.getName()}"></option>
+    </select>
+    <button type="submit">Submit</button>
+</form>
+<br>
+<form th:method="POST" th:action="@{/filter}">
+    <label for="students">Choose a student</label>
+    <select name="student" id="students">
+        <option value="">Choose...</option>
+        <option th:each="student : ${students}" th:value="${student.getUsername()}"
+                th:text="${student.getName()}"></option>
+    </select>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
