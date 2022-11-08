@@ -15,8 +15,6 @@ public class CourseFilter implements Filter {
         String course = req.getParameter("course");
         String sessionCourse = (String) req.getSession().getAttribute("course");
 
-        System.out.printf("%s, %s%n", course, sessionCourse);
-
         if (req.getServletPath().equals("/listCourses")) {
             filterChain.doFilter(req, resp);
             return;
