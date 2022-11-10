@@ -44,6 +44,12 @@ public class ListStudentServlet extends HttpServlet {
         WebContext webContext = new WebContext(req, resp, req.getServletContext());
         String parameter = req.getParameter("course");
         req.getSession().setAttribute("course", parameter);
+
+        if (parameter == null) {
+            resp.sendRedirect("/courses");
+            return;
+        }
+
         Course course = courseService.getCourseById(Long.parseLong(parameter));
         List<Student> students = new ArrayList<>(studentService.listAll());
         students.removeAll(courseService.listStudentsByCourse(course.getCourseId()));

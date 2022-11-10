@@ -36,4 +36,15 @@ public class CourseRepository {
         DataHolder.courses.add(course);
         return course;
     }
+
+    public boolean deleteCourse(Long id) {
+        Course course = DataHolder.courses.stream().filter(c -> c.getCourseId().equals(id)).findFirst().orElse(null);
+
+        if (course == null) {
+            return false;
+        }
+
+        DataHolder.courses.remove(course);
+        return true;
+    }
 }

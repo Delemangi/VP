@@ -5,9 +5,12 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebFilter
 public class CourseFilter implements Filter {
+    private final List<String> allowedPaths = List.of("/listCourses", "/courses", "/courses/delete");
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         var req = (HttpServletRequest) servletRequest;
@@ -15,13 +18,13 @@ public class CourseFilter implements Filter {
         String course = req.getParameter("course");
         String sessionCourse = (String) req.getSession().getAttribute("course");
 
-        if (req.getServletPath().equals("/listCourses")) {
+        if (allowedPaths.stream().anyMatch(path -> req.getServletPath().startsWith(path))) {
             filterChain.doFilter(req, resp);
             return;
         }
 
         if (course == null && sessionCourse == null) {
-            resp.sendRedirect("/listCourses");
+            resp.sendRedirect("/courses");
         } else {
             filterChain.doFilter(req, resp);
         }
