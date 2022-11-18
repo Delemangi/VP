@@ -9,7 +9,7 @@ import java.util.List;
 
 @WebFilter
 public class CourseFilter implements Filter {
-    private final List<String> allowedPaths = List.of("/listCourses", "/courses", "/courses/delete");
+    private final List<String> allowedPaths = List.of("/listCourses", "/courses", "/courses/delete", "/courses/search");
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
