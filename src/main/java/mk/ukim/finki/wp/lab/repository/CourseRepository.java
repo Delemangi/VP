@@ -47,4 +47,8 @@ public class CourseRepository {
         DataHolder.courses.remove(course);
         return true;
     }
+
+    public List<Course> search(String term) {
+        return DataHolder.courses.stream().filter(c -> c.getName().contains(term) || c.getDescription().contains(term)).toList();
+    }
 }

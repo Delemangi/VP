@@ -11,4 +11,6 @@ public interface StudentService {
     Student getByUsername(String username);
 
     Student save(String username, String password, String name, String surname);
+
+    List<Student> search(String term);
 }

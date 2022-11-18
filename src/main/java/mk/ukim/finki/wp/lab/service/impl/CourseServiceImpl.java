@@ -81,4 +81,9 @@ public class CourseServiceImpl implements CourseService {
         course.setDescription(description);
         course.setTeacher(teacherService.getById(teacher));
     }
+
+    @Override
+    public List<Course> search(String term) {
+        return courseRepository.search(term);
+    }
 }

@@ -37,4 +37,9 @@ public class StudentServiceImpl implements StudentService {
     public Student getByUsername(String username) {
         return studentRepository.findByUsername(username);
     }
+
+    @Override
+    public List<Student> search(String term) {
+        return studentRepository.findAllByNameOrSurname(term);
+    }
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search everything</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/courses/search}">
+    <label for="search">Search</label>
+    <input id="search" type="text" name="term">
+
+    <button type="submit">Go</button>
+</form>
+
+<th:block th:if="${courses} != null">
+    <p>Courses</p>
+    <ul>
+        <li th:each="course : ${courses}" th:text="${course.getName()}"></li>
+    </ul>
+</th:block>
+
+<th:block th:if="${students} != null">
+    <p>Students</p>
+    <ul>
+        <li th:each="student : ${students}" th:text="${student.getName()}"></li>
+    </ul>
+</th:block>
+
+<th:block th:if="${teachers} != null">
+    <p>Teachers</p>
+    <ul>
+        <li th:each="teacher : ${teachers}" th:text="${teacher.getName()}"></li>
+    </ul>
+</th:block>
+
+</body>
+</html>

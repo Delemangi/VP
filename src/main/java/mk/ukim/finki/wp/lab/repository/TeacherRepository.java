@@ -15,4 +15,8 @@ public class TeacherRepository {
     public Teacher findById(Long id) {
         return DataHolder.teachers.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);
     }
+
+    public List<Teacher> findAllByNameOrSurname(String term) {
+        return DataHolder.teachers.stream().filter(t -> t.getName().contains(term) || t.getSurname().contains(term)).toList();
+    }
 }

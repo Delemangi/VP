@@ -17,4 +17,6 @@ public interface CourseService {
     boolean deleteCourse(Long id);
 
     void editCourse(Long id, String name, String description, Long teacher);
+
+    List<Course> search(String term);
 }

@@ -24,4 +24,9 @@ public class TeacherServiceImpl implements TeacherService {
     public Teacher getById(Long id) {
         return teacherRepository.findById(id);
     }
+
+    @Override
+    public List<Teacher> search(String term) {
+        return teacherRepository.findAllByNameOrSurname(term);
+    }
 }

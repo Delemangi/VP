@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.lab.web.controller;
 
 import mk.ukim.finki.wp.lab.service.CourseService;
+import mk.ukim.finki.wp.lab.service.StudentService;
 import mk.ukim.finki.wp.lab.service.TeacherService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class CourseController {
     private final CourseService courseService;
     private final TeacherService teacherService;
+    private final StudentService studentService;
 
-    public CourseController(CourseService courseService, TeacherService teacherService) {
+    public CourseController(CourseService courseService, TeacherService teacherService, StudentService studentService) {
         this.courseService = courseService;
         this.teacherService = teacherService;
+        this.studentService = studentService;
     }
 
     @GetMapping
@@ -65,5 +68,20 @@ public class CourseController {
         model.addAttribute("teachers", teacherService.findAll());
 
         return "add-course";
+    }
+
+    @GetMapping("/search")
+    public String searchEverything() {
+        return "search";
+    }
+
+    @PostMapping("/search")
+    public String searchResults(@RequestParam String term, Model model) {
+        model.addAttribute("courses", courseService.search(term));
+        model.addAttribute("teachers", teacherService.search(term));
+        model.addAttribute("students", studentService.search(term));
+        model.addAttribute("term", term);
+
+        return "search";
     }
 }
