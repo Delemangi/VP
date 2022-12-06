@@ -2,17 +2,25 @@ package mk.ukim.finki.wp.lab.model;
 
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 @Data
+@Entity
 public class Student {
-    private final String username;
-    private final String password;
-    private final String name;
-    private final String surname;
+    @Id
+    private String username;
+    private String password;
+    private String name;
+    private String surname;
 
     public Student(String username, String password, String name, String surname) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
+    }
+
+    public Student() {
     }
 }

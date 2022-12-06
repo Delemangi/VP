@@ -1,12 +1,19 @@
 package mk.ukim.finki.wp.lab.web.controller;
 
+import mk.ukim.finki.wp.lab.model.Course;
+import mk.ukim.finki.wp.lab.model.Grade;
+import mk.ukim.finki.wp.lab.model.Student;
 import mk.ukim.finki.wp.lab.service.CourseService;
+import mk.ukim.finki.wp.lab.service.GradeService;
 import mk.ukim.finki.wp.lab.service.StudentService;
 import mk.ukim.finki.wp.lab.service.TeacherService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/courses")
@@ -14,11 +21,13 @@ public class CourseController {
     private final CourseService courseService;
     private final TeacherService teacherService;
     private final StudentService studentService;
+    private final GradeService gradeService;
 
-    public CourseController(CourseService courseService, TeacherService teacherService, StudentService studentService) {
+    public CourseController(CourseService courseService, TeacherService teacherService, StudentService studentService, GradeService gradeService) {
         this.courseService = courseService;
         this.teacherService = teacherService;
         this.studentService = studentService;
+        this.gradeService = gradeService;
     }
 
     @GetMapping
@@ -83,5 +92,28 @@ public class CourseController {
         model.addAttribute("term", term);
 
         return "search";
+    }
+
+    @GetMapping("/addGrade")
+    public String getAddGradePage(@NotNull Model model) {
+        model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("students", studentService.findAll());
+
+        return "add-grade";
+    }
+
+    @PostMapping("/addGrade")
+    public String saveGrade(@RequestParam Long course, @RequestParam String student, @RequestParam Character grade, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+        if (course == null || student == null || grade == null || date == null) {
+            return "redirect:/courses?error=Invalid Data";
+        }
+
+        Student s = studentService.findByUsername(student);
+        Course c = courseService.findByCourseId(course);
+        Grade g = new Grade(grade, s, c, date);
+
+        gradeService.save(g);
+
+        return "redirect:/courses";
     }
 }

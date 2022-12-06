@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>WP lab - Students in Course</title>
+    <meta charset="utf-8">
+    <title>WP lab - Students in Course</title>
 
 </head>
 <body>
 <header>
-  <h1>Students in Course </h1>
+    <h1>Students in Course </h1>
 </header>
 <section>
-  <div th:text="${course}"></div>
-  <ul>
-    <li th:each="student : ${students}" th:text="${student.getName() + ' ' + student.getSurname() + ' (' + student.getUsername() + ')'}"></li>
-  </ul>
-  <a href="/listCourses">Back</a>
+    <div th:text="${course}"></div>
+    <ul>
+        <th:block th:each="student : ${students}">
+            <li th:text="${student.getName() + ' ' + student.getSurname() + ' (' + student.getUsername() + ')'}"></li>
+            <th:block th:if="${grades.get(student.getUsername())} != null" th:text="${'Grade: ' + grades.get(student.getUsername()).getGrade() + ', date: ' + grades.get(student.getUsername()).getTimestamp().format(formatter)}"></th:block>
+        </th:block>
+    </ul>
+    <a href="/listCourses">Back</a>
 </section>
 
 </body>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Grade</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/courses/addGrade}">
+    <label>
+        Student
+        <select name="student">
+            <option th:each="student : ${students}" th:value="${student.getUsername()}"
+                    th:text="${student.getName()}"></option>
+        </select>
+    </label>
+    <label>
+        Course
+        <select name="course">
+            <option th:each="course : ${courses}" th:value="${course.getCourseId()}"
+                    th:text="${course.getName()}"></option>
+        </select>
+    </label>
+    <label>
+        Grade
+        <input type="text" name="grade"/>
+    </label>
+    <label>
+        Time
+        <input type="datetime-local" name="date"/>
+    </label>
+
+    <input type="submit" value="Add"/>
+</form>
+</body>
+</html>
