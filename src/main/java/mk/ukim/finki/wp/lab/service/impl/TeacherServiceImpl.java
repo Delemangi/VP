@@ -27,6 +27,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Teacher> search(String term) {
-        return teacherRepository.findAllByNameLikeOrSurnameLike(term, term);
+        return teacherRepository.findAll()
+                .stream()
+                .filter(teacher -> teacher.getFullName().getName().contains(term) || teacher.getFullName().getSurname().contains(term))
+                .toList();
     }
 }

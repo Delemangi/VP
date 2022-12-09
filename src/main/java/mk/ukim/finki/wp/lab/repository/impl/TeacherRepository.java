@@ -17,6 +17,6 @@ public class TeacherRepository {
     }
 
     public List<Teacher> findAllByNameOrSurname(String term) {
-        return DataHolder.teachers.stream().filter(t -> t.getName().contains(term) || t.getSurname().contains(term)).toList();
+        return DataHolder.teachers.stream().filter(t -> t.getFullName().getName().contains(term) || t.getFullName().getSurname().contains(term)).toList();
     }
 }

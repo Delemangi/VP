@@ -15,12 +15,20 @@
     <label for="teacher">Teacher</label>
     <select id="teacher" name="teacher">
         <option th:if="${course} == null" th:each="teacher : ${teachers}" th:value="${teacher.id}"
-                th:text="${teacher.name}"></option>
+                th:text="${teacher.getFullName()}"></option>
         <option th:if="${course} != null" th:each="teacher : ${teachers}" th:value="${teacher.id}"
-                th:text="${teacher.name}" th:selected="${course.getTeacher().getId() == teacher.getId()}"></option>
+                th:text="${teacher.getFullName()}"
+                th:selected="${course.getTeacher().getId() == teacher.getId()}"></option>
     </select>
 
     <input style="display: none" th:if="${course} != null" name="course" th:value="${course.getCourseId()}">
+
+    <label for="type">Type</label>
+    <select id="type" name="type">
+        <option th:if="${course} == null" th:each="type : ${types}" th:value="${type}" th:text="${type}"></option>
+        <option th:if="${course} != null" th:each="type : ${types}" th:value="${type}" th:text="${type}"
+                th:selected="${course.getType().toString().equals(type)}"></option>
+    </select>
 
     <button type="submit">Submit</button>
 </form>

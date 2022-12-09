@@ -14,13 +14,15 @@ public interface CourseService {
 
     Course getCourseById(Long courseId);
 
-    Course addCourse(String name, String description, Long teacherId);
+    Course addCourse(String name, String description, Long teacherId, String type);
 
     void deleteCourse(Long id);
 
-    void editCourse(Long id, String name, String description, Long teacher);
+    void editCourse(Long id, String name, String description, Long teacher, String type);
 
     List<Course> search(String term);
 
     Course findByCourseId(Long course);
+
+    void save(String name, String description, Long teacher, Long course, String type);
 }

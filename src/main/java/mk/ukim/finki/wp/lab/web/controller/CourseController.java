@@ -14,10 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
+    private static final List<String> COURSE_TYPES = List.of("WINTER", "SUMMER", "MANDATORY", "ELECTIVE");
     private final CourseService courseService;
     private final TeacherService teacherService;
     private final StudentService studentService;
@@ -43,11 +45,11 @@ public class CourseController {
     }
 
     @PostMapping("/add")
-    public String saveCourse(@RequestParam String name, @RequestParam String description, @RequestParam Long teacher, @RequestParam(required = false) Long course) {
+    public String saveCourse(@RequestParam String name, @RequestParam String description, @RequestParam Long teacher, @RequestParam String type, @RequestParam(required = false) Long course) {
         if (course == null) {
-            courseService.addCourse(name, description, teacher);
+            courseService.addCourse(name, description, teacher, type);
         } else {
-            courseService.editCourse(course, name, description, teacher);
+            courseService.editCourse(course, name, description, teacher, type);
         }
 
         return "redirect:/courses";
@@ -68,6 +70,7 @@ public class CourseController {
 
         model.addAttribute("course", courseService.getCourseById(id));
         model.addAttribute("teachers", teacherService.findAll());
+        model.addAttribute("types", COURSE_TYPES);
 
         return "add-course";
     }
@@ -75,6 +78,7 @@ public class CourseController {
     @GetMapping("/add")
     public String getAddCoursePage(@NotNull Model model) {
         model.addAttribute("teachers", teacherService.findAll());
+        model.addAttribute("types", COURSE_TYPES);
 
         return "add-course";
     }

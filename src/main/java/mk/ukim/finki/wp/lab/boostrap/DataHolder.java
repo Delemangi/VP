@@ -3,6 +3,7 @@ package mk.ukim.finki.wp.lab.boostrap;
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Student;
 import mk.ukim.finki.wp.lab.model.Teacher;
+import mk.ukim.finki.wp.lab.model.enums.Type;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -29,8 +30,8 @@ public class DataHolder {
         teachers.add(new Teacher("Teacher 2", "T"));
         teachers.add(new Teacher("Teacher 3", "T"));
 
-        courses.add(new Course("Course 1", "Description 1", teachers.get(0)));
-        courses.add(new Course("Course 2", "Description 2", teachers.get(1)));
-        courses.add(new Course("Course 3", "Description 3", teachers.get(2)));
+        courses.add(new Course("Course 1", "Description 1", teachers.get(0), Type.ELECTIVE));
+        courses.add(new Course("Course 2", "Description 2", teachers.get(1), Type.MANDATORY));
+        courses.add(new Course("Course 3", "Description 3", teachers.get(2), Type.WINTER));
     }
 }

@@ -22,11 +22,12 @@ public class Course implements Comparable<Course> {
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    public Course(String name, String description, Teacher teacher) {
+    public Course(String name, String description, Teacher teacher, Type type) {
         this.name = name;
         this.description = description;
         this.students = new ArrayList<>();
         this.teacher = teacher;
+        this.type = type;
     }
 
     public Course() {
