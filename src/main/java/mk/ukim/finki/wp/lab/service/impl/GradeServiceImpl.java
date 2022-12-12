@@ -29,4 +29,9 @@ public class GradeServiceImpl implements GradeService {
     public void save(Grade g) {
         gradeRepository.save(g);
     }
+
+    @Override
+    public void deleteAll(Iterable<Grade> grades) {
+        gradeRepository.deleteAll(grades);
+    }
 }

@@ -57,7 +57,9 @@ public class CourseController {
 
     @DeleteMapping("/delete/{id}")
     public String deleteCourse(@PathVariable Long id) {
-        this.courseService.deleteCourse(id);
+        List<Grade> grades = gradeService.findByCourseId(id);
+        gradeService.deleteAll(grades);
+        courseService.deleteCourse(id);
 
         return "redirect:/courses";
     }

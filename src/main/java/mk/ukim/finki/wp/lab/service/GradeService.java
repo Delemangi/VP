@@ -10,4 +10,6 @@ public interface GradeService {
     Grade findByCourseIdAndStudentUsername(Long courseID, String username);
 
     void save(Grade g);
+
+    void deleteAll(Iterable<Grade> grades);
 }
