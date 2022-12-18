@@ -5,7 +5,10 @@ import mk.ukim.finki.wp.lab.repository.jpa.JpaTeacherRepository;
 import mk.ukim.finki.wp.lab.service.TeacherService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -27,9 +30,11 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Teacher> search(String term) {
-        return teacherRepository.findAll()
-                .stream()
-                .filter(teacher -> teacher.getFullName().getName().contains(term) || teacher.getFullName().getSurname().contains(term))
-                .toList();
+        Set<Teacher> a = new HashSet<>();
+
+        a.addAll(teacherRepository.findAllByFullNameNameContains(term));
+        a.addAll(teacherRepository.findAllByFullNameSurnameContains(term));
+
+        return new ArrayList<>(a);
     }
 }

@@ -8,5 +8,5 @@ import java.util.List;
 public interface JpaStudentRepository extends JpaRepository<Student, Long> {
     Student findByUsername(String username);
 
-    List<Student> findAllByNameLikeOrSurnameLike(String text, String text1);
+    List<Student> findAllByNameContainsOrSurnameContains(String text, String text1);
 }

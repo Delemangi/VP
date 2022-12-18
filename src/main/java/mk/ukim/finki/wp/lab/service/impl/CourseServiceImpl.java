@@ -105,7 +105,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> search(String term) {
-        return courseRepository.findByName(term);
+        return courseRepository.findByNameContains(term);
     }
 
     @Override

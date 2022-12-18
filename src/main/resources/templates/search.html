@@ -30,7 +30,7 @@
 <th:block th:if="${teachers} != null">
     <p>Teachers</p>
     <ul>
-        <li th:each="teacher : ${teachers}" th:text="${teacher.getName()}"></li>
+        <li th:each="teacher : ${teachers}" th:text="${teacher.getFullName().getName()}"></li>
     </ul>
 </th:block>
 
