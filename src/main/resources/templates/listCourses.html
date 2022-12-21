@@ -24,27 +24,31 @@
     <h1>Courses List</h1>
 </header>
 <main>
-    <h2>Choose course:</h2>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+        <h2>Choose course:</h2>
 
-    <form th:method="POST" th:action="@{/addStudent}">
-        <th:block th:each="course : ${courses}">
-            <label>
-                <input th:id="${course.getCourseId()}" type="radio" name="course" th:value="${course.getCourseId()}"
-                       th:text="${course.getName()}">
-            </label>
-        </th:block>
-        <button type="submit" value="submit">Submit</button>
-    </form>
+        <form th:method="POST" th:action="@{/addStudent}">
+            <th:block th:each="course : ${courses}">
+                <label>
+                    <input th:id="${course.getCourseId()}" type="radio" name="course" th:value="${course.getCourseId()}"
+                           th:text="${course.getName()}">
+                </label>
+            </th:block>
+            <button type="submit" value="submit">Submit</button>
+        </form>
+    </th:block>
 
     <div th:each="course : ${courses}">
         <p th:text="${course.getName()}"></p>
-        <form class="delete" th:method="DELETE" th:action="@{'/courses/delete/{id}' (id=${course.getCourseId()})}">
-            <button type="submit">Delete</button>
-        </form>
-        <a th:href="@{'/courses/edit/{id}' (id=${course.getCourseId()})}">Edit</a>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <form class="delete" th:method="DELETE" th:action="@{'/courses/delete/{id}' (id=${course.getCourseId()})}">
+                <button type="submit">Delete</button>
+            </form>
+            <a th:href="@{'/courses/edit/{id}' (id=${course.getCourseId()})}">Edit</a>
+        </th:block>
     </div>
 
-    <div>
+    <div sec:authorize="hasRole('ADMIN')">
         <a th:href="@{/courses/add}">Add new course</a>
     </div>
 
