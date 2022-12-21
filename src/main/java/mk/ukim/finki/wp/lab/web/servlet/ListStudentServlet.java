@@ -30,6 +30,7 @@ public class ListStudentServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html; charset=UTF-8");
         WebContext webContext = new WebContext(req, resp, req.getServletContext());
         String parameter = req.getSession().getAttribute("course").toString();
         Course course = courseService.getCourseById(Long.parseLong(parameter));
@@ -41,6 +42,7 @@ public class ListStudentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html; charset=UTF-8");
         WebContext webContext = new WebContext(req, resp, req.getServletContext());
         String parameter = req.getParameter("course");
         req.getSession().setAttribute("course", parameter);

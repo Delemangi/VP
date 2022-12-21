@@ -23,6 +23,7 @@ public class CoursesListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html; charset=UTF-8");
         WebContext webContext = new WebContext(req, resp, req.getServletContext());
         webContext.setVariable("courses", courseService.getCourses());
         springTemplateEngine.process("listCourses.html", webContext, resp.getWriter());

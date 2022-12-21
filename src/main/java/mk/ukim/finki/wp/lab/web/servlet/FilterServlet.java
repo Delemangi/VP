@@ -26,6 +26,7 @@ public class FilterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html; charset=UTF-8");
         WebContext webContext = new WebContext(req, resp, req.getServletContext());
 
         var courses = courseService.getCourses();
@@ -39,6 +40,7 @@ public class FilterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html; charset=UTF-8");
         WebContext webContext = new WebContext(req, resp, req.getServletContext());
 
         var student = req.getParameter("student");
