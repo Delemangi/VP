@@ -37,4 +37,9 @@ public class TeacherServiceImpl implements TeacherService {
 
         return new ArrayList<>(a);
     }
+
+    @Override
+    public Teacher save(String name, String surname) {
+        return teacherRepository.save(new Teacher(name, surname));
+    }
 }

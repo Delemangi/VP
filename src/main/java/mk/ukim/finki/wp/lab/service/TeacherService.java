@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface TeacherService {
     List<Teacher> findAll();
+
     Teacher getById(Long id);
 
     List<Teacher> search(String term);
+
+    Teacher save(String name, String surname);
 }
