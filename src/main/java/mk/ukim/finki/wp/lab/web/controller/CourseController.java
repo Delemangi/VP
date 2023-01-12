@@ -3,10 +3,7 @@ package mk.ukim.finki.wp.lab.web.controller;
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Grade;
 import mk.ukim.finki.wp.lab.model.Student;
-import mk.ukim.finki.wp.lab.service.CourseService;
-import mk.ukim.finki.wp.lab.service.GradeService;
-import mk.ukim.finki.wp.lab.service.StudentService;
-import mk.ukim.finki.wp.lab.service.TeacherService;
+import mk.ukim.finki.wp.lab.service.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -24,12 +21,14 @@ public class CourseController {
     private final TeacherService teacherService;
     private final StudentService studentService;
     private final GradeService gradeService;
+    private final UserService userService;
 
-    public CourseController(CourseService courseService, TeacherService teacherService, StudentService studentService, GradeService gradeService) {
+    public CourseController(CourseService courseService, TeacherService teacherService, StudentService studentService, GradeService gradeService, UserService userService) {
         this.courseService = courseService;
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.gradeService = gradeService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -121,5 +120,17 @@ public class CourseController {
         gradeService.save(g);
 
         return "redirect:/courses";
+    }
+
+    @GetMapping("/register")
+    public String getRegisterPage(@NotNull Model model) {
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String register(@RequestParam String username, @RequestParam String password) {
+        userService.register(username, password, "ROLE_USER");
+
+        return "redirect:/login";
     }
 }

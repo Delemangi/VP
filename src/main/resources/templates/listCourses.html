@@ -42,9 +42,9 @@
         <p th:text="${course.getName()}"></p>
         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
             <form class="delete" th:method="DELETE" th:action="@{'/courses/delete/{id}' (id=${course.getCourseId()})}">
-                <button type="submit">Delete</button>
+                <button type="submit" class="delete">Delete</button>
             </form>
-            <a th:href="@{'/courses/edit/{id}' (id=${course.getCourseId()})}">Edit</a>
+            <a th:href="@{'/courses/edit/{id}' (id=${course.getCourseId()})}" class="edit">Edit</a>
         </th:block>
     </div>
 

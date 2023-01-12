@@ -5,15 +5,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final PasswordEncoder passwordEncoder;
+    private final DatabaseAuthenticationProvider databaseAuthenticationProvider;
 
-    public WebSecurityConfig(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    public WebSecurityConfig(DatabaseAuthenticationProvider databaseAuthenticationProvider) {
+        this.databaseAuthenticationProvider = databaseAuthenticationProvider;
     }
 
     @Override
@@ -21,11 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/courses", "/courses/search").permitAll()
+                .antMatchers("/courses", "/courses/search", "/courses/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/courses")
+                .successForwardUrl("/courses")
                 .and()
                 .httpBasic()
                 .and()
@@ -38,11 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder.encode("admin")).roles("ADMIN")
-                .and()
-                .withUser("user").password(passwordEncoder.encode("user")).roles("USER");
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(databaseAuthenticationProvider);
     }
 }

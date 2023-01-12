@@ -1,12 +1,11 @@
-package mk.ukim.finki.wp.lab;
+package mk.ukim.finki.wp.lab.selenium;
 
 import mk.ukim.finki.wp.lab.service.CourseService;
 import mk.ukim.finki.wp.lab.service.TeacherService;
-import org.junit.Assert;
+import mk.ukim.finki.wp.lab.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +19,8 @@ class TestButtonVisibility {
     private TeacherService teacherService;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private UserService userService;
 
     @BeforeEach
     public void setup() {
@@ -29,32 +30,26 @@ class TestButtonVisibility {
 
     @AfterEach
     public void destroy() {
-        if (this.driver != null) {
-            this.driver.close();
+        if (driver != null) {
+            driver.close();
         }
     }
 
     public void init() {
         teacherService.save("John", "Doe");
         courseService.save("C1", "C1", 1L, -1L, "WINTER");
+        userService.register("admin", "admin", "ROLE_ADMIN");
     }
 
     @Test
     void testButtonVisibility() {
-        driver.get("http://localhost:8081/courses");
+        CoursesPage coursesPage = CoursesPage.open(driver);
+        coursesPage.assertButtonCountsAre(0, 0);
 
-        Assert.assertTrue(driver.findElements(By.tagName("button")).isEmpty());
+        LoginPage loginPage = LoginPage.open(driver);
+        LoginPage.login(driver, loginPage, "admin", "admin");
 
-        driver.get("http://localhost:8081/login");
-        var loginButton = driver.findElement(By.tagName("button"));
-        var username = driver.findElement(By.id("username"));
-        var password = driver.findElement(By.id("password"));
-
-        username.sendKeys("admin");
-        password.sendKeys("admin");
-        loginButton.click();
-        driver.get("http://localhost:8081/courses");
-
-        Assert.assertFalse(driver.findElements(By.tagName("button")).isEmpty());
+        coursesPage = CoursesPage.open(driver);
+        coursesPage.assertButtonsExist();
     }
 }
