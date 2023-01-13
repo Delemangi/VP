@@ -20,11 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/courses", "/courses/search", "/courses/register").permitAll()
+                .antMatchers("/courses", "/courses/search", "/courses/register", "/courses/users").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .successForwardUrl("/courses")
+                .defaultSuccessUrl("/courses")
                 .and()
                 .httpBasic()
                 .and()

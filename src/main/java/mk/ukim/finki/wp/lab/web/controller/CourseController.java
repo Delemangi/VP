@@ -3,9 +3,13 @@ package mk.ukim.finki.wp.lab.web.controller;
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Grade;
 import mk.ukim.finki.wp.lab.model.Student;
+import mk.ukim.finki.wp.lab.model.User;
+import mk.ukim.finki.wp.lab.model.enums.Role;
 import mk.ukim.finki.wp.lab.service.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -123,7 +127,7 @@ public class CourseController {
     }
 
     @GetMapping("/register")
-    public String getRegisterPage(@NotNull Model model) {
+    public String getRegisterPage() {
         return "register";
     }
 
@@ -132,5 +136,27 @@ public class CourseController {
         userService.register(username, password, "ROLE_USER");
 
         return "redirect:/login";
+    }
+
+    @GetMapping("/users")
+    public String getUsers(@NotNull Model model) {
+        model.addAttribute("users", userService.getAll());
+        model.addAttribute("roles", Role.values());
+
+        return "users";
+    }
+
+    @PostMapping("/users")
+    public String setUsers(@RequestParam String user, @RequestParam String role, @NotNull Model model, @AuthenticationPrincipal User userAcc) {
+        userService.changeRole(user, role);
+
+        model.addAttribute("users", userService.getAll());
+        model.addAttribute("roles", Role.values());
+
+        if (userAcc.getUsername().equals(user)) {
+           SecurityContextHolder.clearContext();
+        }
+
+        return "users";
     }
 }
